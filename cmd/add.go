@@ -6,23 +6,36 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"log"
+	"todolist/todo"
 )
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Add task to the list",
+	Long:  `add will create a new todo item to the list`,
+	Run:   addRun,
+}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
-	},
+func addRun(cmd *cobra.Command, args []string) {
+	var items []todo.Item
+
+	items, err := todo.ReadItems("mytodolist.csv")
+	if err != nil {
+		log.Printf("%v", err)
+	}
+
+	for _, x := range args {
+		items = append(items, todo.Item{1, x, true})
+	}
+	//fmt.Printf("%#v\n", items)
+	err = todo.SaveItems("mytodolist.csv", items)
+	if err != nil {
+		fmt.Errorf("%v", err)
+	}
+
 }
 
 func init() {

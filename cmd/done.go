@@ -6,6 +6,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"strconv"
+	"todolist/todo"
 
 	"github.com/spf13/cobra"
 )
@@ -13,16 +16,8 @@ import (
 // doneCmd represents the done command
 var doneCmd = &cobra.Command{
 	Use:   "done",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("done called")
-	},
+	Short: "Mark a task as done",
+	Run:   doneRun,
 }
 
 func init() {
@@ -37,4 +32,17 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// doneCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func doneRun(cmd *cobra.Command, args []string) {
+	items, err := todo.ReadItems("mytodolist.csv")
+	i, err := strconv.Atoi(args[0])
+
+	if err != nil {
+		log.Fatalln(args[0], "is not a valid label\n", err)
+	}
+	if i > 0 && i < len(items) {
+		items[i-1].Done = true
+		fmt.Printf("%q %v\n", items[i-1].Text, "Done")
+	}
 }
