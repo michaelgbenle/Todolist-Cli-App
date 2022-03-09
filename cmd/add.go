@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Copyright © 2022 Gbenle Michael <Michaelgbenle@gmail.com>
 
 */
 package cmd
@@ -22,16 +22,17 @@ var addCmd = &cobra.Command{
 func addRun(cmd *cobra.Command, args []string) {
 	var items []todo.Item
 
-	items, err := todo.ReadItems("mytodolist.csv")
+	itemsArr, err := todo.ReadItems()
 	if err != nil {
 		log.Printf("%v", err)
 	}
 
-	for _, x := range args {
-		items = append(items, todo.Item{1, x, true})
+	for _, x := range itemsArr {
+		items = append(items, todo.Item{1, x.Text, false})
 	}
-	//fmt.Printf("%#v\n", items)
-	err = todo.SaveItems("mytodolist.csv", items)
+	items = append(items, todo.Item{1, args[0], false})
+
+	err = todo.SaveItems(items)
 	if err != nil {
 		fmt.Errorf("%v", err)
 	}

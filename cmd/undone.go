@@ -6,6 +6,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"strconv"
+	"todolist/todo"
 
 	"github.com/spf13/cobra"
 )
@@ -14,21 +17,24 @@ import (
 var undoneCmd = &cobra.Command{
 	Use:   "undone",
 	Short: "Mark a task as not done",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("undone called")
-	},
+	Run:   undoneRun,
 }
 
 func init() {
 	rootCmd.AddCommand(undoneCmd)
 
-	// Here you will define your flags and configuration settings.
+}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// undoneCmd.PersistentFlags().String("foo", "", "A help for foo")
+func undoneRun(cmd *cobra.Command, args []string) {
+	items, err := todo.ReadItems()
+	i, err := strconv.Atoi(args[0])
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// undoneCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	if err != nil {
+		log.Fatalln(args[0], "is not a valid label\n", err)
+	}
+	if i > 0 && i <= len(items) {
+		items[i-1].Done = false
+		todo.SaveItems(items)
+	}
+	fmt.Printf("%q %v\n", items[i-1].Text, "Not done")
 }
