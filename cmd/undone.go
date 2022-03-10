@@ -17,7 +17,7 @@ import (
 var undoneCmd = &cobra.Command{
 	Use:   "undone",
 	Short: "Mark a task as not done",
-	Run:   undoneRun,
+	Run:   UndoneRun,
 }
 
 func init() {
@@ -25,7 +25,7 @@ func init() {
 
 }
 
-func undoneRun(cmd *cobra.Command, args []string) {
+func UndoneRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems()
 	i, err := strconv.Atoi(args[0])
 

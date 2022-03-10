@@ -17,7 +17,7 @@ import (
 var cleanupCmd = &cobra.Command{
 	Use:   "cleanup",
 	Short: "Clean up done tasks",
-	Run:   cleanedup,
+	Run:   Cleanedup,
 }
 
 func init() {
@@ -34,14 +34,7 @@ func init() {
 	// cleanupCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func cleanedup(cmd *cobra.Command, args []string) {
-	//type Item struct {
-	//	Position int
-	//	Text     string
-	//	Done     bool
-	//	Clean    bool
-	//}
-	//open new slice of Items
+func Cleanedup(cmd *cobra.Command, args []string) {
 	var newSlice []todo.Item
 	items, err := todo.ReadItems()
 
@@ -49,7 +42,7 @@ func cleanedup(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 	for _, val := range items {
-		if val.Done == true {
+		if val.Done {
 			continue
 		} else {
 			newSlice = append(newSlice, val)
@@ -59,9 +52,4 @@ func cleanedup(cmd *cobra.Command, args []string) {
 	todo.SaveItems(newSlice)
 	fmt.Println("Cleaned ")
 
-	//if i > 0 && i <= len(items) {
-	//	items[i-1].Clean = true
-	//	todo.SaveItems(items)
-	//}
-	//fmt.Printf("%q %v\n", items[i-1].Text, "Cleaned")
 }

@@ -17,7 +17,7 @@ import (
 var doneCmd = &cobra.Command{
 	Use:   "done",
 	Short: "Mark a task as done",
-	Run:   doneRun,
+	Run:   DoneRun,
 }
 
 func init() {
@@ -34,7 +34,7 @@ func init() {
 	// doneCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func doneRun(cmd *cobra.Command, args []string) {
+func DoneRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems()
 	i, err := strconv.Atoi(args[0])
 

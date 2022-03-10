@@ -33,7 +33,6 @@ func ListRun(cmd *cobra.Command, args []string) {
 		log.Printf("%v", err)
 
 	}
-	//fmt.Println(items)
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 2, ' ', 0)
 	for _, i := range items {
 		if i.Done == false {
