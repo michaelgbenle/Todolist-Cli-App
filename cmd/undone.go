@@ -37,4 +37,5 @@ func UndoneRun(cmd *cobra.Command, args []string) {
 		todo.SaveItems(items)
 	}
 	fmt.Printf("%q %v\n", items[i-1].Text, "Not done")
+
 }
